@@ -71,24 +71,27 @@
         };
 
 
-
-        // for (let i = 0; i < earthquakedata.result.length; i++) 
+        var timeoutduration = {duration: 0}
+        for (let i = earthquakedata.result.length - 1; i > 0; i--) 
         {
-          var i = earthquakedata.result.length - 1
-          setInterval(function(){
-            const earthquake = earthquakedata.result[i];
+          const earthquake = earthquakedata.result[i];
+
+          const datePrev = new Date(earthquake.date)
+          const dateCurr = new Date(earthquakedata.result[i-1].date)
+          console.log(dateCurr)
+          console.log(datePrev)
+          console.log(dateCurr - datePrev)
+          timeoutduration.duration += (dateCurr - datePrev) / 100
+
+          setTimeout(function(){
+            
             var renk = "#FF0000"
             let opacity = 0.3
-            if (i < 10)
-            {
-              renk = "#00FF00"
-              opacity = 1
-            }
 
             const cityCircle = new google.maps.Circle({
               strokeColor: renk,
-              strokeOpacity: 0,
-              strokeWeight: 0,
+              strokeOpacity: 1,
+              strokeWeight: 1,
               fillColor: renk,
               fillOpacity: opacity,
               map,
@@ -105,13 +108,18 @@
               opacity: 0,
             });
 
-            map.setCenter({ lat: earthquake.lat, lng: earthquake.lng })
-            map.setZoom( 6.6 / earthquake.mag + 6.6 )
+            // map.setCenter({ lat: earthquake.lat, lng: earthquake.lng })
+            // map.setZoom( 6.6 / earthquake.mag + 6.6 )
             // console.log(map)
-            i--
+            /*
             if (i == 0)
               i = earthquakedata.result.length - 1
-          }, 1000)
+            */
+
+            document.getElementById('time').innerText = "Time: " + dateCurr
+            document.getElementById('Header').innerText = earthquake.title + " \n(" + earthquake.mag + ")"
+            
+          },  timeoutduration.duration)
         }
       }
 
@@ -131,6 +139,51 @@
         height: 100%;
       }
 
+      #footer {
+        position:absolute;
+        z-index: 9999;
+        font-size: large;
+        font-weight: bolder;
+        background-color: red;
+        width: 100%;
+        /*text-align: right;*/
+        bottom: 0;
+        display: flex;
+      }
+      
+      #footer {
+        position:absolute;
+        z-index: 9999;
+        font-size: large;
+        font-weight: bolder;
+        background-color: red;
+        width: 100%;
+        text-align: right;
+        bottom: 0;
+      }
+
+      #time {
+        flex: 1;
+        text-align: left;
+      }
+
+      #name {
+        flex: 1;
+        text-align: right;
+      }
+
+      #Header {
+        position:absolute;
+        z-index: 9999;
+        font-size: xx-large;
+        font-weight: 1000;
+        background-color: red;
+        color: seashell;
+        width: 100%;
+        text-align: center;
+        top: 0;
+      }
+
       /* 
       * Optional: Makes the sample page fill the window. 
       */
@@ -143,6 +196,11 @@
     </style>
   </head>
   <body>
+    <div id = 'Header'></div>
+    <div id = 'footer'>
+      <div id = 'time'></div>
+      <div id = 'name'>Developed by Valos Lives®</div>
+    </div>
     <div id="map"></div>
     <!--script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxzNG8Yt4et8_c1Cuzs39x0-WMgrIBNdM&callback=initMap&v=weekly"
