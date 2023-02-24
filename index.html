@@ -42,7 +42,7 @@
 
 
       var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open( "GET", "https://api.orhanaydogdu.com.tr/deprem/kandilli/live?limit=100000", false )
+      xmlHttp.open( "GET", "https://api.orhanaydogdu.com.tr/deprem/kandilli/live?limit=300", false )
       xmlHttp.send( null )
       const earthquakedata = JSON.parse(xmlHttp.responseText)
       console.log(earthquakedata)
@@ -81,12 +81,22 @@
           console.log(dateCurr)
           console.log(datePrev)
           console.log(dateCurr - datePrev)
-          timeoutduration.duration += (dateCurr - datePrev) / 100
+          timeoutduration.duration += (dateCurr - datePrev) / 10000
 
           setTimeout(function(){
             
-            var renk = "#FF0000"
-            let opacity = 0.3
+            let renk;
+            var renk_dusuk  = "#FF0000"
+            var renk_orta    = "#00FF00"
+            var renk_yuksek     = "#0000FF"
+            var renk_cokyuksek     = "#FF7F00"
+
+            let constant = 255 - earthquake.mag * (255 / 7);
+
+            renk = 'rgb(255,' + constant + ',0)'
+
+
+            let opacity = 0.5
 
             const cityCircle = new google.maps.Circle({
               strokeColor: renk,
@@ -96,7 +106,7 @@
               fillOpacity: opacity,
               map,
               center: { lat: earthquake.lat, lng: earthquake.lng },
-              radius: earthquake.mag * 10000,
+              radius: earthquake.mag * 2000,
               zIndex: earthquakedata.result.length - i,
             });
             
@@ -118,7 +128,8 @@
 
             document.getElementById('time').innerText = "Time: " + dateCurr
             document.getElementById('Header').innerText = earthquake.title + " \n(" + earthquake.mag + ")"
-            
+            document.getElementById('Header').style.backgroundColor = renk
+
           },  timeoutduration.duration)
         }
       }
@@ -177,7 +188,6 @@
         z-index: 9999;
         font-size: xx-large;
         font-weight: 1000;
-        background-color: red;
         color: seashell;
         width: 100%;
         text-align: center;
