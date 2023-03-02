@@ -6,7 +6,7 @@
 -->
 <html>
   <head>
-    <title>Complex Marker Icons</title>
+    <title>Türkiye Son Depremler - Taha DOGAN</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script>
       /**
@@ -81,7 +81,7 @@
           console.log(dateCurr)
           console.log(datePrev)
           console.log(dateCurr - datePrev)
-          timeoutduration.duration += (dateCurr - datePrev) / 666
+          timeoutduration.duration += (dateCurr - datePrev) / 1666
 
           setTimeout(function(){
             
@@ -107,6 +107,7 @@
               map,
               center: { lat: earthquake.lat, lng: earthquake.lng },
               radius: earthquake.mag * 2000,
+              radius: 5000,
               zIndex: earthquakedata.result.length - i,
             });
             
@@ -192,6 +193,7 @@
         width: 100%;
         text-align: center;
         top: 0;
+        left: 9;
       }
 
       /* 
@@ -209,7 +211,7 @@
     <div id = 'Header'></div>
     <div id = 'footer'>
       <div id = 'time'></div>
-      <div id = 'name'>Developed by Valos Lives®</div>
+      <div id = 'name'>Developed by Taha DOGAN</div>
     </div>
     <div id="map"></div>
     <!--script
