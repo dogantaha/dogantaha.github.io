@@ -46,7 +46,7 @@
       xmlHttp.send( null )
       const earthquakedata = JSON.parse(xmlHttp.responseText)
       console.log(earthquakedata)
-
+      
       function setMarkers(map) {
         // Adds markers to the map.
         // Marker sizes are expressed as a Size of X,Y where the origin of the image
@@ -78,9 +78,9 @@
 
           const datePrev = new Date(earthquake.date)
           const dateCurr = new Date(earthquakedata.result[i-1].date)
-          console.log(dateCurr)
-          console.log(datePrev)
-          console.log(dateCurr - datePrev)
+          // console.log(dateCurr)
+          // console.log(datePrev)
+          // console.log(dateCurr - datePrev)
           timeoutduration.duration += (dateCurr - datePrev) / 1666
 
           setTimeout(function(){
@@ -98,6 +98,9 @@
 
             let opacity = 0.5
 
+            let earthquake_lat = earthquake.geojson.coordinates[1]
+            let earthquake_lon = earthquake.geojson.coordinates[0]
+
             const cityCircle = new google.maps.Circle({
               strokeColor: renk,
               strokeOpacity: 1,
@@ -105,13 +108,13 @@
               fillColor: renk,
               fillOpacity: opacity,
               map,
-              center: { lat: earthquake.lat, lng: earthquake.lng },
+              center: { lat: earthquake_lat, lng: earthquake_lon },
               radius: earthquake.mag * 2000,
               zIndex: earthquakedata.result.length - i,
             });
             
             const name = new google.maps.Marker({
-              position: { lat: earthquake.lat, lng: earthquake.lng },
+              position: { lat: earthquake_lat, lng: earthquake_lon },
               map,
               title: earthquake.title + " \n(" + earthquake.mag + ")",
               zIndex: earthquakedata.result.length - i,
@@ -121,10 +124,10 @@
             // map.setCenter({ lat: earthquake.lat, lng: earthquake.lng })
             // map.setZoom( 6.6 / earthquake.mag + 6.6 )
             // console.log(map)
-            /*
+            //
             if (i == 0)
               i = earthquakedata.result.length - 1
-            */
+            
 
             document.getElementById('time').innerText = "Time: " + dateCurr
             document.getElementById('Header').innerText = earthquake.title + " \n(" + earthquake.mag + ")"
